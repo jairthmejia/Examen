@@ -1,7 +1,8 @@
 import shutil
+import os
 # ... (tus otras importaciones y funciones se quedan igual)
 
-def copiar_archivo_prueba(ruta_origen, ruta_destino):
+def copiar_archivos_planos(ruta_origen, ruta_destino):
     """
     Copia un archivo desde una ruta de origen a una ruta de destino.
     Si las carpetas de destino no existen, las crea automáticamente.
