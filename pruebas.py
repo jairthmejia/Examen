@@ -11,4 +11,3 @@ df_limpio = df.drop_duplicates()
 print(df)
 print(df_limpio)
 
-***************************
