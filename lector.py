@@ -1,12 +1,29 @@
-# lector.py
+import pandas as pd
 
-def obtener_lineas_especificas(nombre_archivo):
-    # Reemplaza "cp1252" por el encoding que te funcionó
-    with open(nombre_archivo, "r", encoding="cp1252") as archivo:
-        lineas = archivo.readlines()
+def obtener_datos_financieros(ruta_archivo):
+    # Lee el archivo saltando las 3 primeras líneas y omitiendo la última
+    df = pd.read_csv(
+        ruta_archivo, 
+        encoding="cp1252",
+        skiprows=3, 
+        skipfooter=1, 
+        engine='python',
+        sep=";"
+    )
+    return df
+
+def limpiar_dataframe(df):
+    # 2. Limpiar espacios en blanco invisibles en los nombres de las columnas
+    df.columns = df.columns.str.strip()
     
-    # Extrae desde la línea 4 hasta la penúltima
-        lineas_filtradas = lineas[3:-1]
+    # 4. Eliminar filas duplicadas si existen
+    df = df.drop_duplicates()
     
-    # Devuelve la lista de líneas limpia (sin espacios vacíos al inicio/final)
-    return [linea.strip() for linea in lineas_filtradas]
+    # 5. Rellenar valores nulos (NaN) pendientes en celdas sueltas
+    # Cambia "" por 0 si prefieres rellenar números faltantes con cero
+    df = df.fillna("Sin Datos") 
+    
+    # 6. Resetear el índice para que empiece desde 0 de forma ordenada
+    df = df.reset_index(drop=True)
+    
+    return df
